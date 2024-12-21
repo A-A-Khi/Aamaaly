@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم - أعمالي</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="{{ url_for('home') }}">
+                    <img src="{{ url_for('static', filename='img/ministerylogo1.png') }}" alt="الصفحة الرئيسية">
+                </a>
+            </div>
+            <div class="auth-button">
+                <a href="{{ url_for('logout') }}" class="sign-in">تسجيل الخروج</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="admin-dashboard">
+            <h1>لوحة التحكم</h1>
+            <div class="files-management">
+                <h2>إدارة الملفات</h2>
+                {% if files %}
+                    <div class="files-grid">
+                        {% for file in files %}
+                        <div class="file-card">
+                            <div class="file-icon">
+                                {% if file.endswith(('.jpg', '.jpeg')) %}
+                                    <i class="fas fa-image"></i>
+                                {% elif file.endswith('.pdf') %}
+                                    <i class="fas fa-file-pdf"></i>
+                                {% elif file.endswith('.docx') %}
+                                    <i class="fas fa-file-word"></i>
+                                {% elif file.endswith(('.ppt', '.pptx')) %}
+                                    <i class="fas fa-file-powerpoint"></i>
+                                {% endif %}
+                            </div>
+                            <div class="file-name">{{ file }}</div>
+                            <div class="file-actions">
+                                <a href="{{ url_for('uploaded_file', filename=file) }}" class="button" target="_blank">عرض</a>
+                                <a href="{{ url_for('delete_file', filename=file) }}" class="button delete" onclick="return confirm('هل أنت متأكد من حذف هذا الملف؟')">حذف</a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p class="no-files">لا توجد ملفات مرفوعة</p>
+                {% endif %}
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>جميع الحقوق محفوظة © 2024</p>
+    </footer>
+</body>
+</html> 

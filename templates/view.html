@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>عرض الملفات - أعمالي</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="{{ url_for('home') }}">
+                    <img src="{{ url_for('static', filename='img/ministerylogo1.png') }}" alt="الصفحة الرئيسية">
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="files-list">
+            <h1>الملفات المرفوعة</h1>
+            {% if files %}
+                <div class="files-grid">
+                    {% for file in files %}
+                    <div class="file-card">
+                        <div class="file-icon">
+                            {% if file.endswith(('.jpg', '.jpeg')) %}
+                                <i class="fas fa-image"></i>
+                            {% elif file.endswith('.pdf') %}
+                                <i class="fas fa-file-pdf"></i>
+                            {% elif file.endswith('.docx') %}
+                                <i class="fas fa-file-word"></i>
+                            {% elif file.endswith(('.ppt', '.pptx')) %}
+                                <i class="fas fa-file-powerpoint"></i>
+                            {% endif %}
+                        </div>
+                        <div class="file-name">{{ file }}</div>
+                        <a href="{{ url_for('uploaded_file', filename=file) }}" class="button" target="_blank">عرض</a>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="no-files">لا توجد ملفات مرفوعة</p>
+            {% endif %}
+        </section>
+    </main>
+
+    <footer>
+        <p>جميع الحقوق محفوظة © 2024</p>
+    </footer>
+</body>
+</html> 
